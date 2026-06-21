@@ -12,7 +12,7 @@ import java.util.List;
 
 @Tag(name = "Usuarios", description = "API para la gestión de usuarios del gimnasio")
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     private final UsuarioService service;
