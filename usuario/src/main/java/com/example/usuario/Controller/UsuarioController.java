@@ -1,6 +1,7 @@
 package com.example.usuario.Controller;
 
 import com.example.usuario.DTO.UsuarioDTO;
+import com.example.usuario.Entity.Usuario;
 import com.example.usuario.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -59,5 +60,11 @@ public class UsuarioController {
     @DeleteMapping("/{id}")
     public void eliminar(@PathVariable Long id){
         service.eliminar(id);
+    }
+
+
+    @GetMapping("/username/{username}")
+    public UsuarioDTO obtenerPorUsername(@PathVariable String username) {
+        return service.buscarPorUsernameDTO(username);
     }
 }

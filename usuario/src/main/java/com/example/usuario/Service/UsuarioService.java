@@ -17,6 +17,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    // LISTAR
     public List<UsuarioDTO> listar() {
         return usuarioRepository.findAll()
                 .stream()
@@ -24,6 +25,7 @@ public class UsuarioService {
                 .collect(Collectors.toList());
     }
 
+    // OBTENER POR ID
     public UsuarioDTO obtenerPorId(Long id) {
 
         Usuario usuario = usuarioRepository.findById(id)
@@ -32,6 +34,7 @@ public class UsuarioService {
         return convertirADTO(usuario);
     }
 
+    // CREAR
     public UsuarioDTO crear(UsuarioDTO dto) {
 
         Usuario usuario = convertirAEntidad(dto);
@@ -41,11 +44,13 @@ public class UsuarioService {
         return convertirADTO(guardado);
     }
 
+    // ACTUALIZAR
     public UsuarioDTO actualizar(Long id, UsuarioDTO dto) {
 
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
+        usuario.setUsername(dto.getUsername());
         usuario.setNombre(dto.getNombre());
         usuario.setApellido(dto.getApellido());
         usuario.setEmail(dto.getEmail());
@@ -56,6 +61,7 @@ public class UsuarioService {
         return convertirADTO(actualizado);
     }
 
+    // ELIMINAR
     public void eliminar(Long id) {
 
         if (!usuarioRepository.existsById(id)) {
@@ -65,11 +71,22 @@ public class UsuarioService {
         usuarioRepository.deleteById(id);
     }
 
+    // BUSCAR POR USERNAME (ENTITY)
+    public Usuario buscarPorUsername(String username) {
+        return usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    }
+
+    // ======================
+    // MAPPERS (SOLO INTERNO)
+    // ======================
+
     private UsuarioDTO convertirADTO(Usuario usuario) {
 
         UsuarioDTO dto = new UsuarioDTO();
 
         dto.setId(usuario.getId());
+        dto.setUsername(usuario.getUsername());
         dto.setNombre(usuario.getNombre());
         dto.setApellido(usuario.getApellido());
         dto.setEmail(usuario.getEmail());
@@ -83,6 +100,7 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
 
         usuario.setId(dto.getId());
+        usuario.setUsername(dto.getUsername());
         usuario.setNombre(dto.getNombre());
         usuario.setApellido(dto.getApellido());
         usuario.setEmail(dto.getEmail());
@@ -91,4 +109,11 @@ public class UsuarioService {
         return usuario;
     }
 
+    public UsuarioDTO buscarPorUsernameDTO(String username) {
+
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        return convertirADTO(usuario);
+    }
 }

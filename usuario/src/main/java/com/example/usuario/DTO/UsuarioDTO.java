@@ -27,4 +27,6 @@ public class UsuarioDTO {
     @NotBlank(message = "Numero de telefono obligatorio")
     private String telefono;
 
+    private String username;
+
 }
